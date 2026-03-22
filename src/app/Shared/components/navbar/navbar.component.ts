@@ -8,11 +8,10 @@ import {
 import { Router, RouterLink, RouterLinkActive } from '@angular/router';
 import { Stored_Keys } from '../../../Core/constants/stored_keys';
 import { TranslationService } from '../../../Core/services/translation.service';
-import { TranslatePipe } from '@ngx-translate/core';
 
 @Component({
   selector: 'app-navbar',
-  imports: [RouterLink, RouterLinkActive , TranslatePipe],
+  imports: [RouterLink, RouterLinkActive],
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.css',
 })

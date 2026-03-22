@@ -11,7 +11,7 @@ import { TranslationService } from './Core/services/translation.service';
   styleUrl: './app.css',
 })
 export class App {
-  protected title = 'Route-Posts';
+  protected title = 'DevNest';
   private translate = inject(TranslateService);
   private translation = inject(TranslationService);
 
