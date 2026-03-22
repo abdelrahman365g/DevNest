@@ -1,0 +1,30 @@
+{
+  "language": "language",
+  "changePassword": {
+    "title": "Change Password",
+    "subtitle": "Keep your account secure by using a strong password.",
+
+    "currentPassword": {
+      "label": "Current password",
+      "placeholder": "Enter current password",
+      "required": "Current password is required."
+    },
+
+    "newPassword": {
+      "label": "New password",
+      "placeholder": "Enter new password",
+      "required": "New password is required.",
+      "pattern": "At least 8 characters with uppercase, lowercase, number, and special character.",
+      "hint": "At least 8 characters with uppercase, lowercase, number, and special character."
+    },
+
+    "confirmPassword": {
+      "label": "Confirm new password",
+      "placeholder": "Re-enter new password",
+      "required": "Please confirm your new password.",
+      "mismatch": "Doesn't match the password."
+    },
+
+    "updateButton": "Update password"
+  }
+}

@@ -1,0 +1,36 @@
+<div class="min-h-screen bg-primary px-4 py-8 sm:py-12 lg:flex lg:items-center">
+  <div
+    class="mx-auto flex w-full max-w-6xl flex-col items-center gap-6 lg:flex-row justify-between"
+  >
+    <app-intro class="order-2 lg:order-1"></app-intro>
+
+    <section class="order-1 w-full max-w-120 lg:order-2">
+      <div class="rounded-2xl bg-white p-4 sm:p-6">
+        <div class="mb-4 text-center lg:hidden">
+          <h1 class="text-3xl font-extrabold tracking-tight text-secondary">
+            DevNest
+          </h1>
+          <p class="mt-1 text-base font-medium leading-snug text-slate-700">
+            For developers. Beyond the code.
+          </p>
+        </div>
+        <div class="mb-5 grid grid-cols-2 rounded-xl bg-slate-100 p-1">
+          <a
+            routerLink="login"
+            routerLinkActive="bg-white text-secondary shadow-sm"
+            class="cursor-pointer text-center rounded-xl py-2 text-sm font-extrabold transition text-slate-600 hover:text-slate-800"
+          >
+            Login</a
+          ><a
+            routerLink="register"
+            routerLinkActive="bg-white text-secondary shadow-sm"
+            class="cursor-pointer text-center rounded-xl py-2 text-sm font-extrabold transition text-slate-600 hover:text-slate-800"
+          >
+            Register
+          </a>
+        </div>
+        <router-outlet></router-outlet>
+      </div>
+    </section>
+  </div>
+</div>

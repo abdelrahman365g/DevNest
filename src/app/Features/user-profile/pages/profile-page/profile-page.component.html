@@ -1,0 +1,52 @@
+<div class="mx-auto max-w-7xl py-4">
+  <a
+    (click)="goBack()"
+    class="inline-flex items-center gap-2 rounded-lg border border-slate-200 bg-white px-3 py-2 text-sm font-bold text-slate-700 transition hover:bg-slate-50 cursor-pointer mb-2"
+  >
+    <i class="fa-solid fa-chevron-left"></i>
+    Back
+  </a>
+  <app-profile-header [user]="headerData"></app-profile-header>
+  @if (headerData?.isOwner) {
+    <div
+      class="my-4 flex flex-wrap items-center rounded-2xl border border-slate-200 bg-white p-3 shadow-sm"
+    >
+      <div
+        class="grid w-full grid-cols-2 gap-2 rounded bg-slate-100 p-1.5 sm:inline-flex sm:w-auto sm:gap-0"
+      >
+        <button
+          routerLink="posts"
+          routerLinkActive="!bg-white !text-blue shadow-sm"
+          class="inline-flex items-center justify-center gap-2 rounded px-4 py-2 text-sm font-bold transition text-slate-600 hover:text-slate-900"
+        >
+          <i class="fa-solid fa-file-text"></i>
+          My Posts</button
+        ><button
+          routerLink="saved"
+          routerLinkActive="!bg-white !text-blue shadow-sm"
+          class="inline-flex items-center justify-center gap-2 rounded px-4 py-2 text-sm font-bold transition text-slate-600 hover:text-slate-900"
+        >
+          <i class="fa-regular fa-bookmark"></i>
+          Saved
+        </button>
+      </div>
+    </div>
+    <router-outlet></router-outlet>
+  } @else {
+    <div class="space-y-4 mt-4">
+      @if (loadingPosts) {
+        <div class="bg-white rounded p-6">
+          <i class="fas fa-spinner fa-spin"></i> Loading
+        </div>
+      } @else {
+        @for (post of userPosts; track $index) {
+          <app-post-card [post]="post" class="block"></app-post-card>
+        } @empty {
+          <div class="bg-white rounded p-6">
+            <p>No posts yet</p>
+          </div>
+        }
+      }
+    </div>
+  }
+</div>

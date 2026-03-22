@@ -1,0 +1,58 @@
+<form>
+  <div class="flex items-start gap-2">
+    <img
+      [alt]="user?.name"
+      class="h-9 w-9 rounded-full object-cover"
+      [src]="user?.photo"
+    />
+    <div
+      class="w-full rounded-2xl border border-slate-200 bg-primary px-2.5 py-1.5 focus-within:border-[#c7dafc] focus-within:bg-white"
+    >
+      <textarea
+        [formControl]="commentBody"
+        [placeholder]="`Comment as ${user?.name}...`"
+        rows="1"
+        class="max-h-35 min-h-10 w-full resize-none bg-transparent px-2 py-1.5 text-sm leading-5 outline-none border-none focus:outline-none focus:border-none focus:ring-0 placeholder:text-slate-500"
+      ></textarea>
+      <div class="mt-1 flex items-center justify-between">
+        <div class="flex items-center gap-1 relative">
+          <label
+            class="inline-flex cursor-pointer items-center justify-center rounded-full p-2 text-slate-500 transition hover:bg-slate-200 hover:text-emerald-600"
+            ><i class="fa-regular fa-image"></i>
+            <input
+              (change)="onImageSelected($event)"
+              accept="image/*"
+              class="hidden"
+              type="file" /></label
+          ><button
+            #emojiButton
+            type="button"
+            (click)="toggleEmojiPicker()"
+            class="inline-flex items-center justify-center rounded-full p-2 text-slate-500 transition hover:bg-slate-200 hover:text-amber-500"
+          >
+            <i class="fa-regular fa-face-smile"></i>
+          </button>
+          <div
+            #emoji
+            class="absolute inset-end-0 top-15 z-50"
+            [class.hidden]="!showEmojis"
+          >
+            <emoji-mart (emojiSelect)="addEmoji($event)"></emoji-mart>
+          </div>
+        </div>
+        <button
+          type="button"
+          (click)="onSubmit()"
+          [disabled]="commentBody.invalid || image.invalid || isCommenting"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-full bg-blue text-white shadow-sm transition hover:bg-[#166fe5] disabled:cursor-not-allowed disabled:bg-[#9ec5ff] disabled:opacity-100"
+        >
+          @if (isCommenting) {
+            <i class="fas fa-spinner fa-spin"></i>
+          } @else {
+            <i class="fa-regular fa-paper-plane"></i>
+          }
+        </button>
+      </div>
+    </div>
+  </div>
+</form>

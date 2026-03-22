@@ -1,0 +1,236 @@
+<article
+  class="overflow-visible rounded-xl border border-slate-200 bg-white shadow-sm"
+>
+  <div class="p-4">
+    <div class="flex items-center gap-3">
+      <a [routerLink]="['/profile', post?.user?._id]"
+        ><img
+          [alt]="post?.user?.name"
+          class="h-11 w-11 rounded-full object-cover"
+          [src]="post?.user?.photo"
+      /></a>
+      <div class="flex-1">
+        <div class="flex gap-3 items-end">
+          <div>
+            <a
+              class="truncate text-sm font-bold hover:underline"
+              [routerLink]="['/profile', post?.user?._id]"
+              >{{ post?.user?.name }}</a
+            >
+            <div
+              class="flex flex-wrap items-center gap-1 text-xs text-slate-500"
+            >
+              @{{ post?.user?.username }}
+              <span class="text-xs font-semibold text-slate-500">
+                {{ post?.createdAt! | timeAgo }}</span
+              ><span class="mx-1">·</span
+              ><span class="inline-flex items-center gap-1">
+                <i [class]="'fa-solid ' + privacyIcon"></i>
+                {{ post?.privacy }}</span
+              >
+            </div>
+          </div>
+          @if (post?.bookmarked) {
+            <div
+              class="w-fit h-fit flex items-center gap-1 rounded-full bg-indigo-50 px-2 py-1 text-xs font-bold text-blue"
+            >
+              <i class="fa-regular fa-bookmark"> </i>Saved
+            </div>
+          }
+        </div>
+      </div>
+      <div class="relative">
+        <button
+          #optionsBtn
+          (click)="toggleOptions()"
+          class="rounded-full p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-700 cursor-pointer"
+        >
+          <i class="fa-solid fa-ellipsis"></i>
+        </button>
+        @if (isOpen) {
+          <div
+            #options
+            (click)="closeOptions()"
+            class="z-50 absolute top-full right-0 p-2 bg-white border border-slate-200 rounded-xl shadow-lg w-52 text-sm text-body font-medium"
+          >
+            <button
+              (click)="bookmarkPost()"
+              class="inline-flex items-center w-full p-2 text-slate-500 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+            >
+              <i
+                class="fa-bookmark me-2"
+                [class.fa-regular]="!post?.bookmarked"
+                [class.fa-solid]="post?.bookmarked"
+              ></i>
+              @if (post?.bookmarked) {
+                Unsave
+              } @else {
+                Save
+              }
+              Post
+            </button>
+            @if (myPost) {
+              <button
+                (click)="toggleEditing()"
+                class="inline-flex items-center w-full p-2 text-slate-500 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+              >
+                <i class="fa-solid fa-pen me-2"></i>
+                Edit Post
+              </button>
+              <button
+                (click)="showConfirmationModal()"
+                class="inline-flex items-center rounded w-full p-2 text-rose-600 hover:bg-rose-50"
+              >
+                <i class="fa-solid fa-trash me-2"></i>
+                Delete Post
+              </button>
+            }
+          </div>
+        }
+      </div>
+    </div>
+    @if (isEditing) {
+      <div class="mt-3">
+        <textarea
+          maxlength="5000"
+          [formControl]="bodyControl"
+          class="min-h-27.5 w-full rounded-xl border border-slate-300 bg-white px-3 py-2 text-sm outline-none ring-blue/20 focus:border-blue focus:ring-2"
+        ></textarea>
+        <div class="mt-2 flex items-center justify-end gap-2">
+          <button
+            (click)="toggleEditing()"
+            class="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100"
+          >
+            Cancel</button
+          ><button
+            (click)="updatePost()"
+            class="rounded-full bg-blue px-3 py-1.5 text-xs font-bold text-white hover:bg-[#166fe5] disabled:opacity-60"
+          >
+            @if (isUpdating) {
+              <i class="fas fa-spinner fa-spin"></i>
+              Updating...
+            } @else {
+              Save
+            }
+          </button>
+        </div>
+      </div>
+    } @else if (post?.body) {
+      <div class="mt-3">
+        <p class="text-sm leading-relaxed">
+          {{ post?.body }}
+        </p>
+      </div>
+    }
+  </div>
+  @if (post?.image) {
+    <div class="max-h-155 overflow-hidden border-y border-slate-200">
+      <button type="button" class="group relative block w-full">
+        <img alt="post" class="w-full object-cover" [src]="post?.image" /><span
+          class="pointer-events-none absolute inset-0 bg-black/0 transition group-hover:bg-black/10"
+        ></span>
+      </button>
+    </div>
+  }
+  @if (post?.sharedPost) {
+    <app-shared-post-card></app-shared-post-card>
+  }
+  <div class="px-4 pb-2 pt-3 text-sm text-slate-500">
+    <div class="flex flex-wrap items-center justify-between gap-2">
+      <div class="flex items-center gap-2">
+        <span
+          class="inline-flex h-5 w-5 items-center justify-center rounded-full bg-blue text-white"
+          ><i class="fa-regular fa-thumbs-up text-white"></i></span
+        ><button
+          type="button"
+          class="font-semibold transition cursor-pointer hover:text-blue hover:underline"
+        >
+          {{ post?.likesCount }} likes
+        </button>
+      </div>
+      <div
+        class="flex flex-wrap items-center gap-2 text-xs sm:gap-3 sm:text-sm"
+      >
+        <span class="inline-flex items-center gap-1"
+          ><i class="fa-solid fa-repeat"></i
+          >{{ post?.sharesCount }} shares</span
+        ><span>{{ post?.commentsCount }} comments</span
+        ><button
+          [routerLink]="['/post', post?._id]"
+          class="rounded-md px-2 py-1 text-xs font-bold text-blue hover:bg-[#e7f3ff] cursor-pointer"
+        >
+          View details
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="mx-4 border-t border-slate-200"></div>
+  <div class="grid grid-cols-3 gap-1 p-1">
+    <button
+      class="cursor-pointer flex items-center justify-center gap-1.5 rounded-md p-2 text-xs font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:gap-2 sm:text-sm"
+      [ngClass]="
+        iLiked
+          ? 'text-blue-500 hover:bg-indigo-100'
+          : 'text-slate-600 hover:bg-slate-100'
+      "
+    >
+      <i class="fa-thumbs-up" [class]="iLiked ? 'fa-solid' : 'fa-regular'"></i
+      ><span>
+        @if (iLiked) {
+          Liked
+        } @else {
+          Like
+        }
+      </span></button
+    ><button
+      (click)="toggleComment()"
+      class="cursor-pointer flex items-center justify-center gap-1.5 rounded-md p-2 text-xs font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:gap-2 sm:text-sm text-slate-600 hover:bg-slate-100"
+    >
+      <i class="fa-regular fa-comment"></i><span>Comment</span></button
+    ><button
+      class="cursor-pointer flex items-center justify-center gap-1.5 rounded-md p-2 text-xs font-semibold transition-colors disabled:cursor-not-allowed disabled:opacity-50 sm:gap-2 sm:text-sm text-slate-600 hover:bg-slate-100"
+    >
+      <i class="fa-solid fa-share"></i><span>Share</span>
+    </button>
+  </div>
+
+  @if ((post?.topComment || toComment) && !showComments) {
+    <div class="mx-4 mb-4 rounded-2xl border border-slate-200 bg-slate-50 p-3">
+      @if (comments.length > 0) {
+        @for (comment of comments; track $index) {
+          <app-comment-card
+            [comment]="comment"
+            [topComment]="true"
+            (commentDeleted)="removeComment($event)"
+          ></app-comment-card>
+        }
+        <button
+          (click)="showAllComments()"
+          class="my-2 text-xs font-bold text-blue hover:underline"
+        >
+          View all comments
+        </button>
+      }
+      @if (toComment) {
+        <app-comment-form
+          [user]="post?.user ?? null"
+          [postId]="post?._id ?? ''"
+          (comment)="addComment($event)"
+        ></app-comment-form>
+      }
+    </div>
+  }
+  @if (showComments) {
+    <app-comments-section
+      [user]="post?.user ?? null"
+      [postId]="post?._id ?? ''"
+    ></app-comments-section>
+  }
+</article>
+
+@if (showModal) {
+  <app-confirmation-modal
+    [show]="true"
+    (confirm)="onDeleteConfirm($event)"
+  ></app-confirmation-modal>
+}

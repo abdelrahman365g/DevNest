@@ -1,0 +1,97 @@
+<form
+  [formGroup]="createPostForm"
+  (ngSubmit)="onSubmit()"
+  class="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm"
+>
+  <div class="mb-3 flex items-center gap-3">
+    <img
+      [alt]="userData.name"
+      class="h-11 w-11 rounded-full object-cover"
+      [src]="userData ? userData.photo : 'default-profile.png'"
+    />
+    <div class="flex-1">
+      <p class="text-base font-extrabold text-slate-900">{{ userData.name }}</p>
+      <div
+        class="mt-1 inline-flex items-center rounded-full bg-slate-100 px-2 py-0.5 text-xs font-semibold text-slate-700"
+      >
+        <i [class]="'fa-solid ' + privacyIcon"></i>
+        <select
+          formControlName="privacy"
+          class="bg-transparent py-2 pe-6 outline-none border-none text-xs focus:border-none focus:outline-none focus:ring-0 cursor-pointer"
+        >
+          <option value="public">Public</option>
+          <option value="following">Followers</option>
+          <option value="only_me">Only me</option>
+        </select>
+      </div>
+    </div>
+  </div>
+  <div class="relative">
+    <textarea
+      rows="4"
+      placeholder="What's on your mind today ?"
+      formControlName="body"
+      maxlength="500"
+      class="w-full rounded-2xl border border-slate-200 bg-slate-50 px-4 py-3 text-[17px] leading-relaxed text-slate-800 outline-none transition focus:border-blue focus:bg-white"
+    ></textarea>
+    <div class="mt-2 flex items-center justify-end text-xs font-semibold">
+      <span class="text-slate-400">{{ bodyLength }}/{{ maxPostLength }}</span>
+    </div>
+  </div>
+  <div
+    class="mt-3 flex flex-wrap items-center justify-between gap-2 border-t border-slate-500 pt-3"
+  >
+    <div class="relative flex items-center gap-2">
+      <label
+        class="flex cursor-pointer items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+      >
+        <i class="fa-regular fa-image text-emerald-600 text-lg"></i>
+        <span class="hidden sm:inline">Photo/video</span
+        ><input
+          accept="image/*"
+          class="hidden"
+          type="file"
+          (change)="onImageSelected($event)" /></label
+      ><button
+        #emojiButton
+        type="button"
+        (click)="toggleEmojiPicker()"
+        class="flex items-center gap-2 rounded-lg px-3 py-2 text-sm font-semibold text-slate-600 transition hover:bg-slate-100 cursor-pointer"
+      >
+        <i class="fa-regular fa-face-smile text-lg text-amber-500"></i>
+        <span class="hidden sm:inline">Feeling/activity</span>
+      </button>
+      <div
+        #emoji
+        class="absolute inset-end-0 top-15 z-50"
+        [class.hidden]="!showEmojis"
+      >
+        <emoji-mart (emojiSelect)="addEmoji($event)"></emoji-mart>
+      </div>
+    </div>
+    <div class="flex items-center gap-3">
+      <button
+        type="submit"
+        [disabled]="createPostForm.invalid || isLoading"
+        class="flex items-center gap-2 rounded-lg bg-blue px-5 py-2 text-sm font-extrabold text-white shadow-sm transition-colors hover:bg-[#166fe5] disabled:opacity-60"
+      >
+        @if (isLoading) {
+          <i class="fas fa-spinner fa-spin"></i>
+          Posting...
+        } @else {
+          Post
+          <i class="fa-regular fa-paper-plane"></i>
+        }
+      </button>
+    </div>
+  </div>
+  @if (createPostForm.get("image")?.hasError("invalidType")) {
+    <p class="mt-2 text-xs font-semibold text-rose-600">
+      Please upload a JPG, PNG, WEBP, or GIF image.
+    </p>
+  } @else if (createPostForm.get("image")?.hasError("maxSize")) {
+    <p class="mt-2 text-xs font-semibold text-rose-600">
+      Image size must be 5 MB or less.
+    </p>
+  }
+</form>

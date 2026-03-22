@@ -1,0 +1,64 @@
+<aside
+  appScrollHeader
+  class="w-full z-10 transition-transform duration-300 h-fit space-y-3 xl:sticky xl:top-18 xl:block"
+>
+  <div
+    class="flex flex-row justify-around lg:flex-col lg:rounded-2xl border border-slate-200 bg-white p-3 shadow-sm"
+  >
+    <a
+      routerLink="feed"
+      routerLinkActive="!bg-[#e7f3ff] !text-blue"
+      class="flex lg:w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-bold transition text-slate-700 hover:bg-slate-100"
+    >
+      <i class="fa-regular fa-newspaper text-lg"></i>
+      <span class="hidden sm:inline-block">Feed</span> </a
+    ><a
+      routerLink="my-posts"
+      routerLinkActive="!bg-[#e7f3ff] !text-blue"
+      class="lg:mt-1 flex lg:w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-bold transition text-slate-700 hover:bg-slate-100"
+    >
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        width="17"
+        height="17"
+        viewBox="0 0 24 24"
+        fill="none"
+        stroke="currentColor"
+        stroke-width="2"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        class="lucide lucide-sparkles"
+        aria-hidden="true"
+      >
+        <path
+          d="M11.017 2.814a1 1 0 0 1 1.966 0l1.051 5.558a2 2 0 0 0 1.594 1.594l5.558 1.051a1 1 0 0 1 0 1.966l-5.558 1.051a2 2 0 0 0-1.594 1.594l-1.051 5.558a1 1 0 0 1-1.966 0l-1.051-5.558a2 2 0 0 0-1.594-1.594l-5.558-1.051a1 1 0 0 1 0-1.966l5.558-1.051a2 2 0 0 0 1.594-1.594z"
+        ></path>
+        <path d="M20 2v4"></path>
+        <path d="M22 4h-4"></path>
+        <circle cx="4" cy="20" r="2"></circle></svg
+      ><span class="hidden sm:inline-block">My Posts</span></a
+    ><a
+      routerLink="community"
+      routerLinkActive="!bg-[#e7f3ff] !text-blue"
+      class="lg:mt-1 flex lg:w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-bold transition text-slate-700 hover:bg-slate-100"
+    >
+      <i class="fa-solid fa-earth-africa text-lg"></i>
+      <span class="hidden sm:inline-block">Community</span></a
+    ><a
+      routerLink="saved-posts"
+      routerLinkActive="!bg-[#e7f3ff] !text-blue"
+      class="lg:mt-1 flex lg:w-full items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-bold transition text-slate-700 hover:bg-slate-100"
+    >
+      <i class="fa-regular fa-bookmark text-lg"></i>
+      <span class="hidden sm:inline-block">Saved</span>
+    </a>
+    <a
+      routerLink="suggested-friends"
+      routerLinkActive="!bg-[#e7f3ff] !text-blue"
+      class="lg:hidden flex items-center gap-3 rounded-xl px-3 py-2 text-left text-sm font-bold transition text-slate-700 hover:bg-slate-100"
+    >
+      <i class="fa-solid fa-users text-lg"></i>
+      <span class="hidden sm:inline-block">Suggested Friends</span>
+    </a>
+  </div>
+</aside>

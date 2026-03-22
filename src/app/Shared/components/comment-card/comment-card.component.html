@@ -1,0 +1,119 @@
+<div class="relative flex items-start gap-2">
+  <img
+    [alt]="comment.commentCreator.name"
+    class="mt-0.5 h-8 w-8 rounded-full object-cover"
+    [src]="comment.commentCreator.photo"
+  />
+  <div class="min-w-0 flex-1">
+    <div class="flex items-start gap-2">
+      <div
+        class="relative inline-block max-w-full rounded-2xl bg-primary px-3 py-2"
+      >
+        <div class="flex items-start justify-between gap-2">
+          <div>
+            <p class="text-xs font-bold text-slate-900">
+              {{ comment.commentCreator.name }}
+            </p>
+            <p class="text-xs text-slate-500">
+              @{{ comment.commentCreator.username }}
+            </p>
+          </div>
+        </div>
+        @if (isEditing) {
+          <div class="mt-2 flex items-center gap-2">
+            <input
+              [formControl]="contentControl"
+              class="w-full rounded-full border border-slate-300 bg-white px-3 py-1.5 text-sm"
+            /><button
+              (click)="updateComment()"
+              class="rounded-full bg-blue px-3 py-1.5 text-xs font-bold text-white hover:bg-[#166fe5] disabled:opacity-60"
+            >
+              @if (isUpdating) {
+                <i class="fas fa-spinner fa-spin"></i>
+              } @else {
+                Save
+              }</button
+            ><button
+              (click)="toggleEdit()"
+              class="rounded-full border border-slate-300 bg-white px-3 py-1.5 text-xs font-bold text-slate-700 hover:bg-slate-100"
+            >
+              Cancel
+            </button>
+          </div>
+        } @else if (comment.content) {
+          <p class="mt-1 whitespace-pre-wrap text-sm text-slate-800">
+            {{ comment.content }}
+          </p>
+        }
+        @if (comment.image) {
+          <img
+            alt="Comment"
+            class="mt-2 max-h-52 w-full rounded-lg object-cover"
+            [src]="comment.image"
+          />
+        }
+      </div>
+      @if (myComment) {
+        <div class="relative">
+          <button
+            #optionsBtn
+            (click)="toggleOptions()"
+            class="rounded-full p-1.5 text-slate-500 hover:bg-slate-100 hover:text-slate-700 cursor-pointer"
+          >
+            <i class="fa-solid fa-ellipsis"></i>
+          </button>
+          @if (isOpen) {
+            <div
+              #options
+              (click)="closeOptions()"
+              class="z-50 absolute top-full right-0 lg:left-0 p-2 bg-white border border-slate-200 rounded-xl shadow-lg w-42 text-sm text-body font-medium"
+            >
+              <button
+                (click)="toggleEdit()"
+                class="inline-flex items-center w-full p-2 text-slate-500 hover:bg-neutral-tertiary-medium hover:text-heading rounded"
+              >
+                <i class="fa-solid fa-pen me-2"></i>
+                Edit Comment
+              </button>
+              <button
+                (click)="deleteComment()"
+                class="inline-flex items-center rounded w-full p-2 text-rose-600 hover:bg-rose-50"
+              >
+                <i class="fa-solid fa-trash me-2"></i>
+                Delete Comment
+              </button>
+            </div>
+          }
+        </div>
+      }
+    </div>
+    @if (!topComment) {
+      <div class="mt-1.5 flex items-center justify-between px-1">
+        <div class="flex items-center gap-4">
+          <span class="text-xs font-semibold text-slate-400">{{
+            comment.createdAt | timeAgo
+          }}</span
+          ><button
+            (click)="likeComment()"
+            [class.text-blue]="isLiked"
+            [class.text-slate-500]="!isLiked"
+            class="text-xs font-semibold hover:underline disabled:opacity-60 cursor-pointer"
+          >
+            @if (isLiking && isLiked) {
+              Unliking...
+            } @else if (isLiking && !isLiked) {
+              Liking...
+            } @else {
+              Like
+            }
+            ({{ likeCount }})</button
+          ><button
+            class="text-xs font-semibold transition hover:underline disabled:opacity-60 text-slate-500 hover:text-blue cursor-pointer"
+          >
+            Reply
+          </button>
+        </div>
+      </div>
+    }
+  </div>
+</div>
